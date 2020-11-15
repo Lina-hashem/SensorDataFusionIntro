@@ -16,6 +16,13 @@ class MovingObject:
                          initial_position[1]* np.sin((4*np.pi*v/initial_position[0]) * time),
                          np.sin((np.pi*v/initial_position[0]) * time)
                          ])
+    velocity = np.array([v*time, (np.cos((4*np.pi*v/initial_position[0])*time)*(4*np.pi*v/initial_position[0])),
+                             (np.cos((np.pi*v/initial_position[0])*time)*(np.pi*v/initial_position[0]))])
+    acc = -q* np.array([time,
+                    -1*(np.sin((4*np.pi*v/initial_position[0])*time)*(4*np.pi*v/initial_position[0])**2),
+                        -1*(np.sin((np.pi*v/initial_position[0])*time)*(np.pi*v/initial_position[0])**2)])
+    
+    
     
     """
     to be calculated by the taking the derivative:  (a)
@@ -34,7 +41,8 @@ class MovingObject:
     
 moving_object = MovingObject()
 position = moving_object.position
-
+vel = moving_object.velocity
+acc = moving_object.acc
 print(position)
 
 fig = plt.figure()
@@ -50,6 +58,22 @@ ax.set_ylabel('y')
 ax.set_zlabel('z')
 #plt.tick_params(axis='both', which='major', labelsize=9)
 plt.legend(loc='lower right')
+
+fig2 = plt.figure()
+ax2 = plt.axes(projection='3d')
+ax2.plot(vel[1], vel[2], zs=20, zdir='z',color = 'red' , label='velocity in (x, y)')
+plt.title("Velocity")
+ax2.set_xlabel('y')
+ax2.set_ylabel('z')
+ax2.set_zlabel('x')
+
+fig3 = plt.figure()
+ax3 = plt.axes(projection='3d')
+ax3.plot(acc[1], acc[2], zs=0, zdir='z', label='acceleration in (x, y)')
+plt.title("Acceleration")
+ax3.set_xlabel('y')
+ax3.set_ylabel('z')
+ax3.set_zlabel('x')
 
 
 plt.show()
